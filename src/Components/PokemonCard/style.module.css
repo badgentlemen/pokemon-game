@@ -5,7 +5,7 @@
     perspective: 1000px;
 }
 
-.root {
+.pokemonCard {
     --fire: #FDDFDF;
     --grass: #DEFDE0;
     --electric: #FCF7DE;
@@ -20,9 +20,7 @@
     --flying: #F5F5F5;
     --fighting: #E6E0D4;
     --normal: #F5F5F;
-}
 
-.pokemonCard {
     width: inherit;
     height: inherit;
     position: relative;
