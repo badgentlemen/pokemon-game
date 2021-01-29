@@ -32,7 +32,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ id, title, urlBg, colorBg, chi
                     )}
                     {children && (
                         <div className={`${style.desc} ${style.full}`}>
-                            <p>{children}</p>
+                            {children}
                         </div>
                     )}
                 </article>

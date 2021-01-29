@@ -4,6 +4,10 @@ import Layout from './Components/Layout';
 import Footer from './Components/Footer';
 import FirstLayoutBG from './Assets/bg2.jpg';
 import ThirdLayoutBG from './Assets/bg1.jpg';
+import { Pokemon } from './Interfaces';
+import PokemonCard from './Components/PokemonCard';
+
+const pokemons: Pokemon[] = require('./Fixtures/pokemons');
 
 const App = () => (
 	<div className="App">
@@ -18,7 +22,9 @@ const App = () => (
         	</p>
 		</Layout>
 		<Layout id="game-table" title="Pokemon Cards" colorBg="purple">
-
+			<div className="flex">
+				{pokemons.map(({ id, name, values, img, type }) => <PokemonCard key={id} id={id} name={name} values={values} img={img} type={type} />)}
+			</div>
 		</Layout>
 		<Layout id="third-layout" title="Третий Layout" urlBg={ThirdLayoutBG} />
 		<Footer />
