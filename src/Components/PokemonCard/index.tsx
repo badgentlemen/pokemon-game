@@ -2,7 +2,6 @@ import { PokemonValues } from "../../Interfaces";
 import s from './style.module.css';
 import cardBackSide from './card-back-side.jpg';
 import { useState } from "react";
-
 interface PokemonCardProps {
     id: number;
     name: string;
@@ -15,11 +14,7 @@ const PokemonCard = ({ id, name, img, values, type }: PokemonCardProps): JSX.Ele
 
     const [isActive, setActive] = useState<boolean>(false);
 
-    const handleCardClick = (): void => {
-        if (!isActive) {
-            setActive(true);
-        }
-    }
+    const handleCardClick = (): void => setActive(!isActive);
 
     return (
         <div className={s.root} onClick={handleCardClick}>
