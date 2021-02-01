@@ -1,6 +1,6 @@
 import { CSSProperties, FunctionComponent, ReactNode } from 'react';
 import style from './style.module.css';
-
+import classnames from 'classnames';
 interface LayoutProps {
     id: string;
     title?: ReactNode;
@@ -31,7 +31,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ id, title, urlBg, colorBg, chi
                         </div>
                     )}
                     {children && (
-                        <div className={`${style.desc} ${style.full}`}>
+                        <div className={classnames(style.desc, style.full)}>
                             {children}
                         </div>
                     )}
