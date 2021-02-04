@@ -3,12 +3,12 @@ import Header from '../Components/Header';
 import Layout from '../Components/Layout';
 import Footer from '../Components/Footer';
 import PokemonCard from '../Components/PokemonCard';
-import FirstLayoutBG from '../../Assets/bg2.jpg';
-import ThirdLayoutBG from '../../Assets/bg1.jpg';
+import FirstLayoutBG from '../Assets/bg2.jpg';
+import ThirdLayoutBG from '../Assets/bg1.jpg';
 import { Pokemon } from '../Interfaces';
 import MenuHeader from "../Components/MenuHeader";
 
-const pokemons: Pokemon[] = require('../../Fixtures/pokemons');
+const pokemons: Pokemon[] = require('../Fixtures/pokemons');
 
 interface HomePageProps {
 	onChangePage?: () => void;
