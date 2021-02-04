@@ -2,13 +2,13 @@ import { Fragment, useState } from "react";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
 
-const MenuHeader = () => {
-    const [menuOpened, setMenuOpened] = useState<boolean>(false);
+const MenuHeader = (): JSX.Element => {
+    const [isMenuOpened, setMenuOpened] = useState<boolean | null>(null);
 
     return (
         <Fragment>
-            <Menu active={menuOpened}/>
-            <Navbar active={menuOpened} onIconClick={() => setMenuOpened(!menuOpened)}/>
+            <Menu active={isMenuOpened}/>
+            <Navbar active={isMenuOpened} onIconClick={() => setMenuOpened(!isMenuOpened)}/>
         </Fragment>
     )
 }

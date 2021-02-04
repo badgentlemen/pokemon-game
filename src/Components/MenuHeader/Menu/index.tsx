@@ -2,12 +2,12 @@ import styles from './style.module.css'
 import classnames from 'classnames'
 
 interface MenuProps {
-    active?: boolean;
+    active?: boolean | null;
 }
 
-const Menu = ({active}: MenuProps) => (
-    <div className={classnames(styles.menuContainer, active ? styles.active : styles.deactive)}>
-        <div className={styles.overlay}/>
+const Menu = ({ active }: MenuProps) => (
+    <div className={classnames(styles.menuContainer, { [styles.active]: active === true, [styles.deactive]: active === false })}>
+        <div className={styles.overlay} />
         <div className={styles.menuItems}>
             <ul>
                 <li>

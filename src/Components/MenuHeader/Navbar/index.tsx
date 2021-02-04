@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import logo from '../../../Assets/logo.png';
 
 interface NavbarProps {
-    active?: boolean;
+    active?: boolean | null;
     onIconClick?: () => void;
 }
 
@@ -13,11 +13,9 @@ const Navbar = ({active, onIconClick}: NavbarProps): JSX.Element => (
             <p className={styles.brand}>
                 <img src={logo} alt="LOGO" height="60"/>
             </p>
-            <a className={classnames(styles.menuButton, {[styles.active]: active})} onClick={onIconClick} style={{
-                cursor: 'pointer'
-            }}>
+            <div className={classnames(styles.menuButton, {[styles.active]: active === true})} onClick={onIconClick}>
                 <span />
-            </a>
+            </div>
         </div>
     </nav>
 )
