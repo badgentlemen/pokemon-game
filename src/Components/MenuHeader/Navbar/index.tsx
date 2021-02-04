@@ -3,17 +3,20 @@ import classnames from 'classnames';
 import logo from '../../../Assets/logo.png';
 
 interface NavbarProps {
-    active?: boolean | null;
+    isOpen?: boolean | null;
     onIconClick?: () => void;
+    bgActive?: boolean;
 }
 
-const Navbar = ({active, onIconClick}: NavbarProps): JSX.Element => (
-    <nav id={styles.navbar}>
+const Navbar = ({isOpen, onIconClick, bgActive}: NavbarProps): JSX.Element => (
+    <nav id={styles.navbar} className={classnames({
+        [styles.bgActive]: bgActive
+    })}>
         <div className={styles.navWrapper}>
             <p className={styles.brand}>
                 <img src={logo} alt="LOGO" height="60"/>
             </p>
-            <div className={classnames(styles.menuButton, {[styles.active]: active === true})} onClick={onIconClick}>
+            <div className={classnames(styles.menuButton, {[styles.active]: isOpen})} onClick={onIconClick}>
                 <span />
             </div>
         </div>
