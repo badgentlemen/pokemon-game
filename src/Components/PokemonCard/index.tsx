@@ -1,4 +1,4 @@
-import { PokemonValues } from "../../Interfaces";
+import {PokemonValues} from "../../Interfaces";
 import s from './style.module.css';
 import cardBackSide from './card-back-side.jpg';
 import classnames from 'classnames';
@@ -12,11 +12,11 @@ interface PokemonCardProps {
     onClick?: () => void;
 }
 
-const PokemonCard = ({ id, name, img, values, type, isActive, onClick }: PokemonCardProps): JSX.Element => {
+const PokemonCard = ({id, name, img, values, type, isActive, onClick}: PokemonCardProps): JSX.Element => {
 
     return (
         <div className={s.root} onClick={onClick}>
-            <div className={classnames(s.pokemonCard, { [s.active]: isActive })}>
+            <div className={classnames(s.pokemonCard, {[s.active]: isActive})}>
                 <div className={s.cardFront}>
                     <div className={classnames(s.wrap, s.front)}>
                         <div className={classnames(s.pokemon, s[type])}>

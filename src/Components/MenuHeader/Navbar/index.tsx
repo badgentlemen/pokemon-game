@@ -11,7 +11,7 @@ interface NavbarProps {
 const Navbar = ({isOpen, onIconClick, bgActive}: NavbarProps): JSX.Element => (
     <nav id={styles.navbar} className={classnames({
         [styles.bgActive]: bgActive
-    })}>
+   })}>
         <div className={styles.navWrapper}>
             <p className={styles.brand}>
                 <img src={logo} alt="LOGO" height="60"/>

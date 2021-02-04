@@ -1,7 +1,7 @@
 import styles from './style.module.css'
 import classnames from 'classnames'
-import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import {ReactNode} from 'react';
+import {Link} from 'react-router-dom';
 
 interface MenuProps {
     active?: boolean | null;
@@ -26,15 +26,15 @@ const menu: MenuItem[] = [{
     title: 'CONTACT'
 }]
 
-const Menu = ({ active, onLinkClick }: MenuProps) => (
-    <div className={classnames(styles.menuContainer, { [styles.active]: active === true, [styles.deactive]: active === false })}>
+const Menu = ({active, onLinkClick}: MenuProps) => (
+    <div className={classnames(styles.menuContainer, {[styles.active]: active === true, [styles.deactive]: active === false})}>
         <div className={styles.overlay} />
         <div className={styles.menuItems}>
             <ul>
-                {menu.map(({ link, title }, index) => (
+                {menu.map(({link, title}, index) => (
                     <li key={index}>
                         <Link to={link} onClick={onLinkClick}>
-                            { title }
+                            {title}
                         </Link>
                     </li>
                 ))}

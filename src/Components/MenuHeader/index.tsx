@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import {Fragment, FunctionComponent, useState} from "react";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
 interface MenuHeaderProps {

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import {ReactNode} from 'react';
 import style from './style.module.css';
 
 interface HeaderProps {
@@ -14,8 +14,8 @@ const Header = ({title, descr, onButtonClick}: HeaderProps) => {
             <div className={style.silhouette} />
             <div className={style.moon} />
             <div className={style.container}>
-                { title && <h1>{title}</h1> }
-                { descr && <p>{descr}</p> }
+                {title && <h1>{title}</h1>}
+                {descr && <p>{descr}</p>}
                 <button onClick={onButtonClick}>
                     Start Game
                 </button>

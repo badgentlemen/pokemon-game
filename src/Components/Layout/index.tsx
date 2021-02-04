@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, ReactNode } from 'react';
+import {CSSProperties, FunctionComponent, ReactNode} from 'react';
 import style from './style.module.css';
 import classnames from 'classnames';
 interface LayoutProps {
@@ -8,17 +8,17 @@ interface LayoutProps {
     colorBg?: string;
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({ id, title, urlBg, colorBg, children }) => {
+const Layout: FunctionComponent<LayoutProps> = ({id, title, urlBg, colorBg, children}) => {
 
-    let layoutStyle: CSSProperties = { };
+    let layoutStyle: CSSProperties = {};
 
     if (urlBg) {
         layoutStyle.backgroundImage = `url(${urlBg})`;
-    }
+   }
 
     if (colorBg) {
         layoutStyle.backgroundColor = colorBg;
-    }
+   }
 
     return (
         <section className={style.root} id={id} style={layoutStyle}>

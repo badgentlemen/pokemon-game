@@ -1,8 +1,8 @@
-import { Fragment } from 'react';
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
-import { AboutPage, ContactPage, GamePage, HomePage, NotFoundPage } from './Routes';
+import {Fragment} from 'react';
+import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom';
+import {AboutPage, ContactPage, GamePage, HomePage, NotFoundPage} from './Routes';
 import MenuHeader from './Components/MenuHeader';
-import { Pokemon } from './Interfaces';
+import {Pokemon} from './Interfaces';
 import classnames from 'classnames';
 import styles from './style.module.css';
 import './App.css';
