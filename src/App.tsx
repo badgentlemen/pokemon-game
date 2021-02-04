@@ -1,21 +1,25 @@
-import { useState } from 'react';
-import { GamePage, HomePage } from './Routes';
+import { Route, Switch } from 'react-router-dom';
+import { AboutPage, ContactPage, GamePage, HomePage } from './Routes';
 import './App.css';
-
-type PageType = 'app' | 'game';
+import { Fragment } from 'react';
+import MenuHeader from './Components/MenuHeader';
 
 const App = () => {
-
-	const [page, setPage] = useState<PageType>('app');
-
-	const handleChangePage = (): void => setPage('game');
-
 	return (
 		<div className="App">
-			{ page === 'game'
-				? <GamePage />
-				: <HomePage onChangePage={handleChangePage}/>
-			}
+			<Switch>
+				<Route>
+					<Fragment>
+						<MenuHeader />
+						<Switch>
+							<Route path="/" component={HomePage} exact />
+							<Route path="/game" component={GamePage} />
+							<Route path="/about" component={AboutPage} />
+							<Route path="/contact" component={ContactPage} />
+						</Switch>
+					</Fragment>
+				</Route>
+			</Switch>
 		</div>
 	)
 };

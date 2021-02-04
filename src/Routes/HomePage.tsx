@@ -6,7 +6,6 @@ import PokemonCard from '../Components/PokemonCard';
 import FirstLayoutBG from '../Assets/bg2.jpg';
 import ThirdLayoutBG from '../Assets/bg1.jpg';
 import { Pokemon } from '../Interfaces';
-import MenuHeader from "../Components/MenuHeader";
 
 const pokemons: Pokemon[] = require('../Fixtures/pokemons');
 
@@ -16,7 +15,6 @@ interface HomePageProps {
 
 export const HomePage: FunctionComponent<HomePageProps> = props => (
     <div className="home-page">
-		<MenuHeader />
         <Header title="Pokemon Game" descr="react marathon!" onButtonClick={props.onChangePage}/>
 		<Layout id="game-terms" title="Game Terms" urlBg={FirstLayoutBG}>
 			<p>
