@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { AboutPage, ContactPage, GamePage, HomePage } from './Routes';
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { AboutPage, ContactPage, GamePage, HomePage, NotFoundPage } from './Routes';
 import MenuHeader from './Components/MenuHeader';
 import { Pokemon } from './Interfaces';
 import classnames from 'classnames';
@@ -15,6 +15,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Switch>
+				<Route path="/404" component={NotFoundPage} />
 				<Route>
 					<Fragment>
 						<MenuHeader bgActive={!isHomePage} />
@@ -26,6 +27,7 @@ const App = () => {
 								<Route path="/game" component={GamePage} />
 								<Route path="/about" component={AboutPage} />
 								<Route path="/contact" component={ContactPage} />
+								<Route render={() => <Redirect to="/404"/>} />
 							</Switch>
 						</div>
 					</Fragment>
