@@ -14,4 +14,5 @@ export interface Pokemon {
     img: string;
     name: string;
     values: PokemonValues;
+    active?: boolean;
 }

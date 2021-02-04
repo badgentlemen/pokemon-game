@@ -1,8 +1,11 @@
+import { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { AboutPage, ContactPage, GamePage, HomePage } from './Routes';
-import './App.css';
-import { Fragment } from 'react';
 import MenuHeader from './Components/MenuHeader';
+import { Pokemon } from './Interfaces';
+import './App.css';
+
+export const pokemons: Pokemon[] = require('./Fixtures/pokemons');
 
 const App = () => {
 	return (

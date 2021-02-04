@@ -10,7 +10,9 @@ interface HeaderProps {
 const Header = ({title, descr, onButtonClick}: HeaderProps) => {
     return (
         <header className={style.root}>
-            <div className={style.forest}></div>
+            <div className={style.forest} />
+            <div className={style.silhouette} />
+            <div className={style.moon} />
             <div className={style.container}>
                 { title && <h1>{title}</h1> }
                 { descr && <p>{descr}</p> }

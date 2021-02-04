@@ -7,7 +7,7 @@ const MenuHeader = (): JSX.Element => {
 
     return (
         <Fragment>
-            <Menu active={isMenuOpened} onLinkClick={() => setMenuOpened(false)}/>
+            <Menu active={isMenuOpened} onLinkClick={() => setMenuOpened(null)}/>
             <Navbar active={isMenuOpened} onIconClick={() => setMenuOpened(!isMenuOpened)}/>
         </Fragment>
     )
