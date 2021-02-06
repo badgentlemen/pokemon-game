@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import PokemonCard from '../Components/PokemonCard';
 import {Pokemon} from '../Interfaces';
-import { GetAllPokemonsApi } from '../Service/Firebase/Api';
+import { GetAllPokemonsApi, SetActiveStateForPokemonWithIdApi } from '../Service/Firebase/Api';
 
 export const GamePage = (): JSX.Element => {
 
@@ -27,9 +27,9 @@ export const GamePage = (): JSX.Element => {
     }
 
     const toggleActiveStateForId = (id: number): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
-        ...pokemon,
-        active: !pokemon.active
-   } : pokemon));
+            ...pokemon,
+            active: !pokemon.active
+       } : pokemon));
 
     return (
         <div className="game-page">
@@ -42,7 +42,15 @@ export const GamePage = (): JSX.Element => {
                     )
                     : error
                         ? <div>Ошибка запроса</div>
-                        : pokemons.map(({id, name, values, img, type, active, firebaseKey}) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => toggleActiveStateForId(id)} />)
+                        : pokemons.map(({id, name, values, img, type, active, firebaseKey}) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
+
+                            if (firebaseKey) {
+                                SetActiveStateForPokemonWithIdApi(firebaseKey, !active)
+                            }
+
+                            toggleActiveStateForId(id);
+
+                        }} />)
 
                 }
             </div>
