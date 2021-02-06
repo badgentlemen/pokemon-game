@@ -7,7 +7,7 @@ export interface PokemonValues {
 }
 
 export interface Pokemon {
-    id: number;
+    id: number | string;
     height: number
     type: string;
     base_experience: number;

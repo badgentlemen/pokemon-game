@@ -1,7 +1,8 @@
-import {useEffect, useState} from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import PokemonCard from '../Components/PokemonCard';
-import {Pokemon} from '../Interfaces';
-import { GetAllPokemonsApi, SetActiveStateForPokemonWithIdApi } from '../Service/Firebase/Api';
+import { Pokemon } from '../Interfaces';
+import { fetchAll, createNewFromSample, setActiveStateWithId, } from '../Service/Firebase/Api/PokemonsApi';
+import { randomElement } from '../Service/Utils';
 
 export const GamePage = (): JSX.Element => {
 
@@ -10,13 +11,13 @@ export const GamePage = (): JSX.Element => {
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        GetAllPokemons();
+        getAllPokemons();
     }, []);
 
-    const GetAllPokemons = async() => {
+    const getAllPokemons = async () => {
         setFetching(() => true);
         try {
-            const storedPokemons = await GetAllPokemonsApi();
+            const storedPokemons = await fetchAll();
             setPokemons(storedPokemons);
 
         } catch (e) {
@@ -26,14 +27,28 @@ export const GamePage = (): JSX.Element => {
         setFetching(() => false);
     }
 
-    const toggleActiveStateForId = (id: number): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
-            ...pokemon,
-            active: !pokemon.active
-       } : pokemon));
+    const handleAppendNewPokemon = async() => {
+        try {
+            const randonPokemon = randomElement(pokemons);
+
+            if (randonPokemon) {
+                const newPokemon = await createNewFromSample(randonPokemon);
+                setPokemons([...pokemons, newPokemon]);
+            }
+
+        } catch (e) {
+
+        }
+    }
+
+    const toggleActiveStateForId = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
+        ...pokemon,
+        active: !pokemon.active
+    } : pokemon));
 
     return (
         <div className="game-page">
-            <div className="flex">
+            <div className="flex flex-column">
                 {isFetching
                     ? (
                         <strong>
@@ -42,15 +57,24 @@ export const GamePage = (): JSX.Element => {
                     )
                     : error
                         ? <div>Ошибка запроса</div>
-                        : pokemons.map(({id, name, values, img, type, active, firebaseKey}) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
+                        : (
+                            <Fragment>
+                                <button onClick={handleAppendNewPokemon}>
+                                    ADD NEW POKEMON
+                                </button>
+                                <div className="flex">
+                                    {pokemons.map(({ id, name, values, img, type, active, firebaseKey }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
 
-                            if (firebaseKey) {
-                                SetActiveStateForPokemonWithIdApi(firebaseKey, !active)
-                            }
+                                        if (firebaseKey) {
+                                            setActiveStateWithId(firebaseKey, !active)
+                                        }
 
-                            toggleActiveStateForId(id);
+                                        toggleActiveStateForId(id);
 
-                        }} />)
+                                    }} />)}
+                                </div>
+                            </Fragment>
+                        )
 
                 }
             </div>

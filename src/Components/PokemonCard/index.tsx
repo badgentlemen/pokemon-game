@@ -3,7 +3,7 @@ import s from './style.module.css';
 import cardBackSide from './card-back-side.jpg';
 import classnames from 'classnames';
 interface PokemonCardProps {
-    id: number;
+    id: number | string;
     name: string;
     img: string;
     values: PokemonValues;
