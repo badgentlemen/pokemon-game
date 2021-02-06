@@ -16,6 +16,7 @@ export const createNewFromSample = async (pokemon: Pokemon): Promise<Pokemon> =>
 
         const newPokemon: Pokemon = {
             ...pokemon,
+            active: false,
             id: newKey,
             firebaseKey: newKey
         }
