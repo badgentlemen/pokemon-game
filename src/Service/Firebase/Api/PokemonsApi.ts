@@ -16,16 +16,13 @@ export const createNewFromSample = async (pokemon: Pokemon): Promise<Pokemon> =>
 
         const newPokemon: Pokemon = {
             ...pokemon,
-            id: newKey
+            id: newKey,
+            firebaseKey: newKey
         }
 
-        await PokemonUniqueRef(newKey).set({
-            ...newPokemon
-        });
-
+        await PokemonUniqueRef(newKey).set(newPokemon);
         return newPokemon;
     }
-
 
     return Promise.reject();
 }
