@@ -1,6 +1,7 @@
 import FirebaseApp from 'firebase/app';
 import 'firebase/database';
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyCBCrj-5xkrbJ72lkyknF4j_7kSkB-PDOg",
     authDomain: "pokemon-game-3c4b0.firebaseapp.com",

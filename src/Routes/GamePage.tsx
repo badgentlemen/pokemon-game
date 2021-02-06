@@ -5,6 +5,7 @@ import { GetAllPokemonsApi } from '../Service/Firebase/Api';
 
 export const GamePage = (): JSX.Element => {
 
+    const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
     const [error, setError] = useState<Error | null>(null);
 
@@ -13,6 +14,7 @@ export const GamePage = (): JSX.Element => {
     }, []);
 
     const GetAllPokemons = async() => {
+        setFetching(() => true);
         try {
             const storedPokemons = await GetAllPokemonsApi();
             setPokemons(storedPokemons);
@@ -20,6 +22,8 @@ export const GamePage = (): JSX.Element => {
         } catch (e) {
             setError(e);
         }
+
+        setFetching(() => false);
     }
 
     const toggleActiveStateForId = (id: number): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
@@ -30,7 +34,17 @@ export const GamePage = (): JSX.Element => {
     return (
         <div className="game-page">
             <div className="flex">
-                {pokemons.map(({id, name, values, img, type, active, firebaseKey}) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => toggleActiveStateForId(id)} />)}
+                {isFetching
+                    ? (
+                        <strong>
+                            Loading...
+                        </strong>
+                    )
+                    : error
+                        ? <div>Ошибка запроса</div>
+                        : pokemons.map(({id, name, values, img, type, active, firebaseKey}) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => toggleActiveStateForId(id)} />)
+
+                }
             </div>
         </div>
     )
