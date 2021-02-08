@@ -1,6 +1,6 @@
 import { PokemonValues } from "../../Interfaces";
 import s from './style.module.css';
-import cardBackSide from './card-back-side.jpg';
+import cardBackSide from './assets/card-back-side.jpg';
 import classnames from 'classnames';
 interface PokemonCardProps {
     id: number | string;
