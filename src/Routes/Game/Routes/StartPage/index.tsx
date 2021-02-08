@@ -41,6 +41,10 @@ export const StartPage = (): JSX.Element => {
         }
     }
 
+    const handleStartGame = (): void => {
+
+    }
+
     const toggleActiveStateForId = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
         ...pokemon,
         active: !pokemon.active
@@ -59,11 +63,11 @@ export const StartPage = (): JSX.Element => {
                         ? <div>Ошибка запроса</div>
                         : (
                             <Fragment>
-                                <button onClick={handleAppendNewPokemon}>
-                                    ADD NEW POKEMON
+                                <button onClick={handleStartGame}>
+                                    START GAME
                                 </button>
                                 <div className="flex">
-                                    {pokemons.map(({ id, name, values, img, type, active, firebaseKey }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
+                                    {pokemons.map(({ id, name, values, img, type, active, firebaseKey }, index) => <PokemonCard key={firebaseKey} id={index + 1} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
 
                                         if (firebaseKey) {
                                             setActiveStateWithId(firebaseKey, !active)
