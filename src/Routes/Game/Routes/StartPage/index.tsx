@@ -4,7 +4,7 @@ import { Pokemon } from '../../../../Interfaces';
 import { fetchAll, createNewFromSample, setActiveStateWithId, } from '../../../../Service/Firebase/Api/PokemonsApi';
 import { randomElement } from '../../../../Service/Utils';
 
-export const StartGame = (): JSX.Element => {
+export const StartPage = (): JSX.Element => {
 
     const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
