@@ -2,7 +2,26 @@ import { PokemonsRef, PokemonUniqueRef } from "./Common";
 import { Pokemon } from "../../../Interfaces";
 import { deserializePokemonsResponse } from "../Utils";
 
+interface FetchAllSockerCallbacks {
+    onUpdate?: (pokemons: Pokemon[]) => void,
+    onLoading?: (state: boolean) => void,
+    onError?: (error: any) => void
+}
+
 export const fetchAll = (): Promise<Pokemon[]> => PokemonsRef().once('value').then(response => deserializePokemonsResponse(response));
+
+export const fetchAllSocket = ({onError, onLoading, onUpdate}: FetchAllSockerCallbacks) => {
+    onLoading && onLoading(true);
+
+    PokemonsRef().on('value', (response) => {
+        const pokemons = deserializePokemonsResponse(response);
+        onUpdate && onUpdate(pokemons);
+        onLoading && onLoading(false);
+    }, (error) => {
+        onError && onError(error);
+        onLoading && onLoading(false);
+    });
+};
 
 export const setActiveStateWithId = (firebaseKey: string, active: boolean): Promise<void> => PokemonUniqueRef(firebaseKey).update({
     active

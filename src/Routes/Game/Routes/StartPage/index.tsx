@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
-import { fetchAll } from '../../../../Service/Firebase/Api/PokemonsApi';
+import { fetchAllSocket } from '../../../../Service/Firebase/Api/PokemonsApi';
 import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
 
 export const StartPage = (): JSX.Element => {
@@ -11,43 +11,29 @@ export const StartPage = (): JSX.Element => {
     const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
     const [error, setError] = useState<Error | null>(null);
-    const { appendPokemons } = useContext(PokemonContext);
+    const { appendPokemons, pokemons: storedPokemons } = useContext(PokemonContext);
     const { push: historyPush } = useHistory();
 
     useEffect(() => {
-        getAllPokemons();
+        fetchAllSocket({
+            onUpdate: pokemons => setPokemons(pokemons),
+            onLoading: loading => setFetching(loading),
+            onError: error => setError(error)
+        })
     }, []);
 
     useEffect(() => {
 
         const selectedPokemons = pokemons.filter(pokemon => pokemon.isSelected);
-
-        if (selectedPokemons.length > 0) {
-            appendPokemons && appendPokemons(selectedPokemons);
-            ;
-        }
+        appendPokemons && appendPokemons(selectedPokemons);
 
     }, [pokemons]);
 
-    const getAllPokemons = async () => {
-        setFetching(() => true);
-        try {
-            const storedPokemons = await fetchAll();
-            setPokemons(storedPokemons);
-
-        } catch (e) {
-            setError(e);
-        }
-
-        setFetching(() => false);
-    }
-
-
-    const handleStartGame = (): void => historyPush('/game/board');
+    const allowGaming = storedPokemons && storedPokemons.length > 0;
 
     const handlePokemonCardClick = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
         ...pokemon,
-        isSelected: !pokemon.isSelected
+        isSelected: !pokemon.isSelected,
     } : pokemon));
 
     return (
@@ -63,13 +49,15 @@ export const StartPage = (): JSX.Element => {
                         ? <div>Ошибка запроса</div>
                         : (
                             <Fragment>
-                                <button onClick={handleStartGame} style={{
-                                    marginBottom: 50
-                                }}>
-                                    START GAME
-                                </button>
+                                {allowGaming && (
+                                    <button onClick={() => historyPush('/game/board')} style={{
+                                        marginBottom: 50
+                                    }}>
+                                        START GAME
+                                    </button>
+                                )}
                                 <div className="flex">
-                                    {pokemons.map(({ id, name, values, img, type, isSelected, firebaseKey }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isSelected={isSelected} onClick={() => handlePokemonCardClick(id)} className={pokemonStyle.root}/>)}
+                                    {pokemons.map(({ id, name, values, img, type, isSelected, firebaseKey, active }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isSelected={isSelected} isActive={active} onClick={() => handlePokemonCardClick(id)} className={pokemonStyle.root} />)}
                                 </div>
                             </Fragment>
                         )
