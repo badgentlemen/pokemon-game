@@ -1,18 +1,33 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../Components/PokemonCard';
+import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
-import { fetchAll, createNewFromSample, setActiveStateWithId, } from '../../../../Service/Firebase/Api/PokemonsApi';
-import { randomElement } from '../../../../Service/Utils';
+import { fetchAll } from '../../../../Service/Firebase/Api/PokemonsApi';
+import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
 
 export const StartPage = (): JSX.Element => {
 
     const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
     const [error, setError] = useState<Error | null>(null);
+    const { appendPokemons } = useContext(PokemonContext);
+    const { push: historyPush } = useHistory();
 
     useEffect(() => {
         getAllPokemons();
     }, []);
+
+    useEffect(() => {
+
+        const selectedPokemons = pokemons.filter(pokemon => pokemon.isSelected);
+
+        if (selectedPokemons.length > 0) {
+            appendPokemons && appendPokemons(selectedPokemons);
+            ;
+        }
+
+    }, [pokemons]);
 
     const getAllPokemons = async () => {
         setFetching(() => true);
@@ -27,27 +42,12 @@ export const StartPage = (): JSX.Element => {
         setFetching(() => false);
     }
 
-    const handleAppendNewPokemon = async () => {
-        try {
-            const randonPokemon = randomElement(pokemons);
 
-            if (randonPokemon) {
-                const newPokemon = await createNewFromSample(randonPokemon);
-                setPokemons([...pokemons, newPokemon]);
-            }
+    const handleStartGame = (): void => historyPush('/game/board');
 
-        } catch (e) {
-
-        }
-    }
-
-    const handleStartGame = (): void => {
-
-    }
-
-    const toggleActiveStateForId = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
+    const handlePokemonCardClick = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
         ...pokemon,
-        active: !pokemon.active
+        isSelected: !pokemon.isSelected
     } : pokemon));
 
     return (
@@ -63,19 +63,13 @@ export const StartPage = (): JSX.Element => {
                         ? <div>Ошибка запроса</div>
                         : (
                             <Fragment>
-                                <button onClick={handleStartGame}>
+                                <button onClick={handleStartGame} style={{
+                                    marginBottom: 50
+                                }}>
                                     START GAME
                                 </button>
                                 <div className="flex">
-                                    {pokemons.map(({ id, name, values, img, type, active, firebaseKey }, index) => <PokemonCard key={firebaseKey} id={index + 1} name={name} values={values} img={img} type={type} isActive={active} onClick={() => {
-
-                                        if (firebaseKey) {
-                                            setActiveStateWithId(firebaseKey, !active)
-                                        }
-
-                                        toggleActiveStateForId(id);
-
-                                    }} />)}
+                                    {pokemons.map(({ id, name, values, img, type, isSelected, firebaseKey }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isSelected={isSelected} onClick={() => handlePokemonCardClick(id)} className={pokemonStyle.root}/>)}
                                 </div>
                             </Fragment>
                         )

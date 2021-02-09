@@ -10,7 +10,7 @@ import './App.css';
 export const pokemons: Pokemon[] = require('./Fixtures/pokemons');
 
 const App = () => {
-	const isHomePage: boolean = useRouteMatch('/')?.isExact || false;
+	const isHomePage: boolean = useRouteMatch(['/game/board', '/'])?.isExact || false;
 
 	return (
 		<div className="App">

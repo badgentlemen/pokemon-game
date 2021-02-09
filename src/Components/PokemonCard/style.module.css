@@ -1,8 +1,7 @@
 .root {
-    width: 268px;
-    height: 388px;
+    width: 268px!important;
+    height: 388px!important;
     margin: 16px;
-    perspective: 1000px;
 }
 
 .pokemonCard {
