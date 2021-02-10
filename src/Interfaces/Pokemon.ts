@@ -15,5 +15,6 @@ export interface Pokemon {
     name: string;
     values: PokemonValues;
     active?: boolean;
+    isSelected?: boolean;
     firebaseKey?: string;
 }
