@@ -1,11 +1,9 @@
 import Header from '../Components/Header';
 import Layout from '../Components/Layout';
 import Footer from '../Components/Footer';
-import PokemonCard from '../Components/PokemonCard';
 import FirstLayoutBG from '../Assets/bg2.jpg';
 import ThirdLayoutBG from '../Assets/bg1.jpg';
 import {useHistory} from 'react-router-dom';
-import {pokemons} from '../App';
 
 export const HomePage = (): JSX.Element => {
 
@@ -24,9 +22,7 @@ export const HomePage = (): JSX.Element => {
 				</p>
 			</Layout>
 			<Layout id="game-table" title="Pokemon Cards" colorBg="purple">
-				<div className="flex">
-					{pokemons.map(({id, name, values, img, type}) => <PokemonCard key={id} id={id} name={name} values={values} img={img} type={type} />)}
-				</div>
+
 			</Layout>
 			<Layout id="third-layout" title="Третий Layout" urlBg={ThirdLayoutBG} />
 			<Footer />
