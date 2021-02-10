@@ -10,7 +10,7 @@ interface FetchAllSockerCallbacks {
 
 export const fetchAll = (): Promise<Pokemon[]> => PokemonsRef().once('value').then(response => deserializePokemonsResponse(response));
 
-export const fetchAllSocket = ({onError, onLoading, onUpdate}: FetchAllSockerCallbacks) => {
+export const subscribeFetchAll = ({onError, onLoading, onUpdate}: FetchAllSockerCallbacks) => {
     onLoading && onLoading(true);
 
     PokemonsRef().on('value', (response) => {
@@ -22,6 +22,8 @@ export const fetchAllSocket = ({onError, onLoading, onUpdate}: FetchAllSockerCal
         onLoading && onLoading(false);
     });
 };
+
+export const unsubscribeFetchAll = (): void => PokemonsRef().off();
 
 export const setActiveStateWithId = (firebaseKey: string, active: boolean): Promise<void> => PokemonUniqueRef(firebaseKey).update({
     active

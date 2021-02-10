@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
-import { fetchAllSocket } from '../../../../Service/Firebase/Api/PokemonsApi';
+import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Firebase/Api/PokemonsApi';
 import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
 
 export const StartPage = (): JSX.Element => {
@@ -15,11 +15,15 @@ export const StartPage = (): JSX.Element => {
     const { push: historyPush } = useHistory();
 
     useEffect(() => {
-        fetchAllSocket({
+        subscribeFetchAll({
             onUpdate: pokemons => setPokemons(pokemons),
             onLoading: loading => setFetching(loading),
             onError: error => setError(error)
-        })
+        });
+
+        return () => {
+            unsubscribeFetchAll();
+        }
     }, []);
 
     useEffect(() => {
@@ -27,7 +31,7 @@ export const StartPage = (): JSX.Element => {
         const selectedPokemons = pokemons.filter(pokemon => pokemon.isSelected);
         appendPokemons && appendPokemons(selectedPokemons);
 
-    }, [pokemons]);
+    }, [pokemons]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const allowGaming = storedPokemons && storedPokemons.length > 0;
 
