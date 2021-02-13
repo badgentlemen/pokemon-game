@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
-import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Firebase/Api/PokemonsApi';
+import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
 import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
 
 export const StartPage = (): JSX.Element => {

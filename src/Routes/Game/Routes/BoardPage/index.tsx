@@ -7,16 +7,16 @@ import s from './style.module.css';
 export const BoardPage = (): JSX.Element => {
 
     const { pokemons } = useContext(PokemonContext);
-    const { push: historyPush } = useHistory();
+    const { replace: routeReplace } = useHistory();
 
     if (!pokemons || pokemons.length === 0) {
-        historyPush('/game/');
+        routeReplace('/game/');
     }
 
     return (
         <div className={s.root}>
             <div className={s.playerOne}>
-                { pokemons && pokemons.map(({id, name, img, values, type}) => <PokemonCard id={id} isActive name={name} img={img} values={values} type={type} minimize className={s.card} />)}
+                {pokemons && pokemons.map(({ id, name, img, values, type }) => <PokemonCard id={id} isActive name={name} img={img} values={values} type={type} minimize className={s.card} />)}
             </div>
             <div className={s.board}>
                 <div className={s.boardPlate}>1</div>

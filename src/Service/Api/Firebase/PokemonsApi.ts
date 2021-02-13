@@ -1,6 +1,6 @@
 import { PokemonsRef, PokemonUniqueRef } from "./Common";
 import { Pokemon } from "../../../Interfaces";
-import { deserializePokemonsResponse } from "../Utils";
+import { deserializePokemonsResponse } from "../../Firebase";
 
 interface FetchAllSockerCallbacks {
     onUpdate?: (pokemons: Pokemon[]) => void,
