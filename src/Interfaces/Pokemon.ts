@@ -1,4 +1,3 @@
-
 export interface PokemonValues {
     top: string | number;
     right: string | number;

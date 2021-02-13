@@ -1,16 +1,45 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
+import { Cell } from '../../../../Interfaces/Cell';
+import { fetchBoardCells } from '../../../../Service/Api';
 import s from './style.module.css';
+
+interface PageErrors {
+    fetchBoardError?: any;
+}
 
 export const BoardPage = (): JSX.Element => {
 
+    const [board, setBoard] = useState<Cell[]>([]);
+    const [errors, setErrors] = useState<PageErrors | null>(null)
     const { pokemons } = useContext(PokemonContext);
     const { replace: routeReplace } = useHistory();
 
-    if (!pokemons || pokemons.length === 0) {
-        routeReplace('/game/');
+    // if (!pokemons || pokemons.length === 0) {
+    //     routeReplace('/game/');
+    // }
+
+    useEffect(() => {
+        fetchBoard();
+
+    }, []);
+
+    const fetchBoard = async() => {
+        try {
+
+            const cells = await fetchBoardCells();
+            setBoard(cells);
+
+        } catch(e) {
+            setErrors(prev => {
+                return {
+                    ...prev,
+                    fetchBoardError: e
+                }
+            });
+        }
     }
 
     return (
