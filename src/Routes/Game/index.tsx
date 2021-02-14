@@ -13,6 +13,8 @@ const GamePage = (): JSX.Element => {
 
     const rootPath = `${match.path}/`;
 
+    const gotoHome = (): void => replace('/game');
+
     return (
         <PokemonContext.Provider value={{
             pokemons: selectedPokemons,
@@ -20,10 +22,12 @@ const GamePage = (): JSX.Element => {
             winResult,
             appendPokemons: (pokemons) => setSelectedPokemons(pokemons),
             setEnemyPokemons: (pokemons) => setEnemyPokemons(pokemons),
-            onReset: () => {
+            resetGame: () => {
                 setSelectedPokemons(() => []);
                 setEnemyPokemons(() => []);
                 setWinResult(() => null);
+
+                gotoHome();
             },
             setWinResult: (result) => {
                 setWinResult(() => result);

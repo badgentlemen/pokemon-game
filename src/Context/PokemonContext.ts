@@ -8,7 +8,7 @@ export interface PokemonContextProps {
     appendPokemons?: (pokemon: Pokemon[]) => void;
     setEnemyPokemons?: (pokemons: Pokemon[]) => void;
     setWinResult?: (result: WinResult | null) => void;
-    onReset?: () => void;
+    resetGame?: () => void;
 }
 
 export const PokemonContext = createContext<Partial<PokemonContextProps>>({
