@@ -90,7 +90,7 @@ export const BoardPage = (): JSX.Element => {
                 { [...board.slice(0, 9)].map(cell => (
                     <div className={s.boardPlate} key={cell.position} onClick={() => handleClickBoardPlate(cell) }>
                         { cell.card && (
-                            <PokemonCard pokemon={cell.card} minimize />
+                            <PokemonCard pokemon={cell.card} minimize enablePossession/>
                         )}
                     </div>
                 ))}

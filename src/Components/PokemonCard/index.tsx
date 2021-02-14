@@ -10,17 +10,22 @@ interface PokemonCardProps {
     className?: string;
     isActive?: boolean;
     disableAnimation?: boolean;
+    enablePossession?: boolean;
 }
 
-const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, onClick, minimize, className, disableAnimation }): JSX.Element => {
+const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, onClick, minimize, className, disableAnimation, enablePossession }): JSX.Element => {
 
-    const { id, name, img, values, type, active, isSelected } = pokemon;
+    const { id, name, img, values, type, active, isSelected, possession } = pokemon;
 
     return (
         <div className={classnames(s.pokemonCard, { [s.animation]: !disableAnimation, [s.simple]: disableAnimation, [s.active]: active || isActive, [s.selected]: isSelected }, className)} onClick={onClick}>
             <div className={s.cardFront}>
                 <div className={classnames(s.wrap, s.front)}>
-                    <div className={classnames(s.pokemon, s[type])}>
+                    <div className={classnames(s.pokemon, s[type])} style={{
+                        ...enablePossession && {
+                            backgroundColor: possession
+                        }
+                    }}>
                         <div className={s.values}>
                             <div className={classnames(s.count, s.top)}>{values.top}</div>
                             <div className={classnames(s.count, s.right)}>{values.right}</div>
