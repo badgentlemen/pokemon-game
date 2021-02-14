@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { callbackify } from 'util';
 import PlayerBoard from '../../../../Components/PlayerBoard';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
@@ -20,11 +19,10 @@ interface PageErrors {
 export const BoardPage = (): JSX.Element => {
 
     const [board, setBoard] = useState<Cell[]>([]);
-    const [enemyPokemons, setEnemyPokemons] = useState<Pokemon[]>([]);
     const [stepOwn, setStepOwn] = useState<StepOwn>('ENEMY');
     const [errors, setErrors] = useState<PageErrors | null>(null);
     const [currentCard, setCurrentCard] = useState<Pokemon | null>(null);
-    const { pokemons } = useContext(PokemonContext);
+    const { pokemons, setWinResult, enemyPokemons, setEnemyPokemons } = useContext(PokemonContext);
     const { replace: routeReplace } = useHistory();
 
     if (!pokemonsAreValidForPlaying(pokemons)) {
@@ -37,13 +35,7 @@ export const BoardPage = (): JSX.Element => {
     }, []);
 
     useEffect(() => {
-
-        const checkWon = whoWon(board);
-
-        if (checkWon) {
-
-        }
-
+        setWinResult && setWinResult(whoWon(board));
     }, [board]);
 
     const fetchBoard = async() => {
@@ -63,7 +55,7 @@ export const BoardPage = (): JSX.Element => {
     const createEnemyPokemons = async() => {
         try {
             const pokemons = await createEnemyPokemonsApi();
-            setEnemyPokemons(pokemons);
+            setEnemyPokemons && setEnemyPokemons(pokemons);
         } catch(e) {
             setErrors(prev => {
                 return {

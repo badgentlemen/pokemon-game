@@ -1,4 +1,4 @@
-import { Pokemon } from "../Interfaces";
+import { Pokemon, WinResult } from "../Interfaces";
 import { Cell } from "../Interfaces/Cell";
 
 export function randomElement<T>(list: T[]): T | undefined  {
@@ -9,7 +9,7 @@ export const pokemonsAreValidForPlaying = (pokemons?: Pokemon[]) => pokemons && 
 
 const filterByPossession = (board: Cell[], possession: 'red' | 'blue'): Cell[] => board.filter(cell => cell.card?.possession === possession);
 
-export const whoWon = (board: Cell[]): 'WE' | 'ENEMY' | 'NOONE' | null => {
+export const whoWon = (board: Cell[]): WinResult | null => {
 
     if (board.length === 0 || board.map(cell => cell.card).includes(null)) {
         return null;
