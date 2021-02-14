@@ -10,6 +10,7 @@ export const StartPage = (): JSX.Element => {
 
     const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [error, setError] = useState<Error | null>(null);
     const { appendPokemons, pokemons: storedPokemons } = useContext(PokemonContext);
     const { push: historyPush } = useHistory();
@@ -28,15 +29,14 @@ export const StartPage = (): JSX.Element => {
 
     useEffect(() => {
 
-        const selectedPokemons = pokemons.filter(pokemon => pokemon.isSelected);
+        const selectedPokemons = pokemons.filter(pokemon => selectedIds.includes(pokemon.id));
         appendPokemons && appendPokemons(selectedPokemons);
 
-    }, [pokemons]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [selectedIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handlePokemonCardClick = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
-        ...pokemon,
-        isSelected: !pokemon.isSelected,
-    } : pokemon));
+    const handlePokemonCardClick = (id: string): void => setSelectedIds(prev => {
+        return [...prev, id];
+    });
 
     return (
         <div className="game-page">
@@ -58,7 +58,7 @@ export const StartPage = (): JSX.Element => {
                                 </button>
                                 <div className="flex">
                                     <PokemonCardsInline pokemons={pokemons}
-                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)}/>
+                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)} selectedIds={selectedIds}/>
                                 </div>
                             </Fragment>
                         )

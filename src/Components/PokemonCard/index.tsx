@@ -11,11 +11,12 @@ interface PokemonCardProps {
     isActive?: boolean;
     disableAnimation?: boolean;
     enablePossession?: boolean;
+    isSelected?: boolean;
 }
 
-const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, onClick, minimize, className, disableAnimation, enablePossession }): JSX.Element => {
+const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, onClick, minimize, className, disableAnimation, enablePossession, isSelected }): JSX.Element => {
 
-    const { id, name, img, values, type, active, isSelected, possession } = pokemon;
+    const { id, name, img, values, type, active, possession } = pokemon;
 
     return (
         <div className={classnames(s.pokemonCard, { [s.animation]: !disableAnimation, [s.simple]: disableAnimation, [s.active]: active || isActive, [s.selected]: isSelected }, className)} onClick={onClick}>
@@ -53,7 +54,8 @@ const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, o
 
 PokemonCard.defaultProps = {
     isActive: true,
-    disableAnimation: false
+    disableAnimation: false,
+    isSelected: false
 };
 
 export default PokemonCard;

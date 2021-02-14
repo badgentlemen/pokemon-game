@@ -6,7 +6,7 @@ export interface PokemonValues {
 }
 
 export interface Pokemon {
-    id: number | string;
+    id: string;
     height: number
     type: string;
     base_experience: number;
@@ -14,7 +14,6 @@ export interface Pokemon {
     name: string;
     values: PokemonValues;
     active?: boolean;
-    isSelected?: boolean;
     firebaseKey?: string;
     possession: 'red' | 'blue';
     player: number;
