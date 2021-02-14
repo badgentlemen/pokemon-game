@@ -1,8 +1,11 @@
+import { Pokemon } from "../Interfaces";
 import { Cell } from "../Interfaces/Cell";
 
 export function randomElement<T>(list: T[]): T | undefined  {
     return list[Math.floor(Math.random() * list.length)];
 };
+
+export const pokemonsAreValidForPlaying = (pokemons?: Pokemon[]) => pokemons && pokemons.length === 5;
 
 const filterByPossession = (board: Cell[], possession: 'red' | 'blue'): Cell[] => board.filter(cell => cell.card?.possession === possession);
 

@@ -5,6 +5,7 @@ import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
 import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
+import { pokemonsAreValidForPlaying } from '../../../../Service/Utils';
 
 export const StartPage = (): JSX.Element => {
 
@@ -33,8 +34,6 @@ export const StartPage = (): JSX.Element => {
 
     }, [pokemons]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const allowGaming = storedPokemons && storedPokemons.length > 0;
-
     const handlePokemonCardClick = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
         ...pokemon,
         isSelected: !pokemon.isSelected,
@@ -53,13 +52,11 @@ export const StartPage = (): JSX.Element => {
                         ? <div>Ошибка запроса</div>
                         : (
                             <Fragment>
-                                {allowGaming && (
-                                    <button onClick={() => historyPush('/game/board')} style={{
-                                        marginBottom: 50
-                                    }}>
-                                        START GAME
-                                    </button>
-                                )}
+                                <button onClick={() => historyPush('/game/board')} style={{
+                                    marginBottom: 50
+                                }} disabled={!pokemonsAreValidForPlaying(storedPokemons)}>
+                                    START GAME
+                                </button>
                                 <div className="flex">
                                     {pokemons.map(pokemon => (
                                         <PokemonCard key={pokemon.firebaseKey || pokemon.id} onClick={() => handlePokemonCardClick(pokemon.id)} className={pokemonStyle.root} pokemon={pokemon} />

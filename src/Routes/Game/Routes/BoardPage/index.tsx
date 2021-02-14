@@ -7,7 +7,7 @@ import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { Cell } from '../../../../Interfaces/Cell';
 import { createEnemyPokemonsApi, fetchBoardCellsApi, gameTurnEffectApi } from '../../../../Service/Api';
-import { whoWon } from '../../../../Service/Utils';
+import { pokemonsAreValidForPlaying, whoWon } from '../../../../Service/Utils';
 import s from './style.module.css';
 
 type StepOwn = 'WE' | 'ENEMY';
@@ -27,9 +27,9 @@ export const BoardPage = (): JSX.Element => {
     const { pokemons } = useContext(PokemonContext);
     const { replace: routeReplace } = useHistory();
 
-    // if (!pokemons || pokemons.length === 0) {
-    //     routeReplace('/game/');
-    // }
+    if (!pokemonsAreValidForPlaying(pokemons)) {
+        routeReplace('/game/');
+    }
 
     useEffect(() => {
         fetchBoard();
@@ -89,7 +89,7 @@ export const BoardPage = (): JSX.Element => {
 
     const handleClickBoardPlate = (cell: Cell): void => {
 
-        if (currentCard) {
+        if (currentCard && cell.card === null) {
             makeGameTurn(cell.position, currentCard, board);
         }
     }
