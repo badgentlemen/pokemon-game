@@ -16,4 +16,6 @@ export interface Pokemon {
     active?: boolean;
     isSelected?: boolean;
     firebaseKey?: string;
+    possession: 'red' | 'blue';
+    player: number;
 }

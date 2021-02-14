@@ -61,7 +61,9 @@ export const StartPage = (): JSX.Element => {
                                     </button>
                                 )}
                                 <div className="flex">
-                                    {pokemons.map(({ id, name, values, img, type, isSelected, firebaseKey, active }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isSelected={isSelected} isActive={active} onClick={() => handlePokemonCardClick(id)} className={pokemonStyle.root} />)}
+                                    {pokemons.map(pokemon => (
+                                        <PokemonCard key={pokemon.firebaseKey || pokemon.id} onClick={() => handlePokemonCardClick(pokemon.id)} className={pokemonStyle.root} pokemon={pokemon} />
+                                    ))}
                                 </div>
                             </Fragment>
                         )
