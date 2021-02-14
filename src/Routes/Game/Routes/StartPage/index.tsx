@@ -34,7 +34,9 @@ export const StartPage = (): JSX.Element => {
 
     }, [selectedIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handlePokemonCardClick = (id: string): void => setSelectedIds(prev => toggleIncludesCollection(prev, id));
+    const handlePokemonCardClick = (id: string): void => {
+        setSelectedIds(list => list.includes(id) ? list.filter(item => item !== id) : list.length < 5 ? [...list, id] : list);
+    };
 
     return (
         <div className="game-page">
@@ -56,7 +58,7 @@ export const StartPage = (): JSX.Element => {
                                 </button>
                                 <div className="flex">
                                     <PokemonCardsInline pokemons={pokemons}
-                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)} selectedIds={selectedIds}/>
+                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)} selectedIds={selectedIds} />
                                 </div>
                             </Fragment>
                         )
