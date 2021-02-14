@@ -1,11 +1,10 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
-import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
 import { pokemonsAreValidForPlaying } from '../../../../Service/Utils';
+import PokemonCardsInline from '../../../../Components/PokemonCardsInline';
 
 export const StartPage = (): JSX.Element => {
 
@@ -58,9 +57,8 @@ export const StartPage = (): JSX.Element => {
                                     START GAME
                                 </button>
                                 <div className="flex">
-                                    {pokemons.map(pokemon => (
-                                        <PokemonCard key={pokemon.firebaseKey || pokemon.id} onClick={() => handlePokemonCardClick(pokemon.id)} className={pokemonStyle.root} pokemon={pokemon} />
-                                    ))}
+                                    <PokemonCardsInline pokemons={pokemons}
+                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)}/>
                                 </div>
                             </Fragment>
                         )
