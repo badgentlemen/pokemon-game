@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { callbackify } from 'util';
 import PlayerBoard from '../../../../Components/PlayerBoard';
 import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
@@ -34,6 +35,16 @@ export const BoardPage = (): JSX.Element => {
         createEnemyPokemons();
     }, []);
 
+    useEffect(() => {
+
+        const checkWon = whoWon();
+
+        if (checkWon) {
+            alert(checkWon);
+        }
+
+    }, [board]);
+
     const fetchBoard = async() => {
         try {
             const cells = await fetchBoardCellsApi();
@@ -67,6 +78,7 @@ export const BoardPage = (): JSX.Element => {
 
             const response = await gameTurnEffectApi(position, card, board);
             setStepOwn(prev => prev === 'WE' ? 'ENEMY' : 'WE');
+            setCurrentCard(() => null);
             setBoard(() => response);
 
         } catch (e) {
@@ -81,22 +93,47 @@ export const BoardPage = (): JSX.Element => {
         }
     }
 
+    const filterPokemonsByBoard = (pokemons: Pokemon[] | undefined): Pokemon[] => pokemons?.filter(prev => !board.map(cell => cell.card?.id).includes(prev.id)) || [];
+
+    const filterByPlayer = (playerId: 1 | 2): Cell[] => board.filter(cell => cell.card?.player === playerId);
+
+    const whoWon = (): 'WE' | 'ENEMY' | 'NOONE' | null => {
+
+        if (board.length === 0 || board.map(cell => cell.card).includes(null)) {
+            return null;
+        }
+
+        const playerOneCount = filterByPlayer(1).length;
+        const playerTwoCount = filterByPlayer(2).length;
+
+        if (playerOneCount > playerTwoCount) {
+            return 'WE'
+        } else if (playerTwoCount > playerOneCount) {
+            return 'ENEMY'
+        } else {
+            return 'NOONE';
+        }
+    }
+
     return (
         <div className={s.root}>
             <div className={s.playerOne}>
-                {pokemons && <PlayerBoard pokemonCards={pokemons} onCardClick={setCurrentCard} disabled={stepOwn === 'ENEMY'}/> }
+                {pokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(pokemons)} onCardClick={setCurrentCard} disabled={stepOwn === 'ENEMY'}/> }
             </div>
             <div className={s.board}>
                 { [...board.slice(0, 9)].map(cell => (
                     <div className={s.boardPlate} key={cell.position} onClick={() => handleClickBoardPlate(cell) }>
                         { cell.card && (
-                            <PokemonCard pokemon={cell.card} minimize enablePossession/>
+                            <PokemonCard pokemon={{
+                                ...cell.card,
+                                isSelected: false
+                            }} minimize enablePossession />
                         )}
                     </div>
                 ))}
             </div>
             <div className={s.playerTwo}>
-                { enemyPokemons && <PlayerBoard pokemonCards={enemyPokemons} onCardClick={setCurrentCard}disabled={stepOwn === 'WE'}/>}
+                { enemyPokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(enemyPokemons)} onCardClick={setCurrentCard} />}
             </div>
         </div>
     )

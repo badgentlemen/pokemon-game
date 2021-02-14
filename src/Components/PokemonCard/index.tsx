@@ -21,11 +21,7 @@ const PokemonCard: FunctionComponent<PokemonCardProps> = ({ pokemon, isActive, o
         <div className={classnames(s.pokemonCard, { [s.animation]: !disableAnimation, [s.simple]: disableAnimation, [s.active]: active || isActive, [s.selected]: isSelected }, className)} onClick={onClick}>
             <div className={s.cardFront}>
                 <div className={classnames(s.wrap, s.front)}>
-                    <div className={classnames(s.pokemon, s[type])} style={{
-                        ...enablePossession && {
-                            backgroundColor: possession
-                        }
-                    }}>
+                    <div className={classnames(s.pokemon, s[type], {[s[possession]]: enablePossession})}>
                         <div className={s.values}>
                             <div className={classnames(s.count, s.top)}>{values.top}</div>
                             <div className={classnames(s.count, s.right)}>{values.right}</div>
