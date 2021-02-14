@@ -25,7 +25,10 @@ const PlayerBoard: FunctionComponent<PlayerBoardProps> = ({ pokemonCards, onCard
         <Fragment>
             { pokemonCards.map(pokemonCard => (
                 <div className={classnames(style.cardBoard, { [style.selected]: selectedPokemon?.id === pokemonCard.id })} key={pokemonCard.firebaseKey || pokemonCard.id}>
-                    <PokemonCard pokemon={pokemonCard} onClick={() => handleCardClick(pokemonCard)} minimize isActive/>
+                    <PokemonCard pokemon={{
+                        ...pokemonCard,
+                        isSelected: false
+                    }} onClick={() => handleCardClick(pokemonCard)} minimize isActive />
                 </div>
             ))}
         </Fragment>

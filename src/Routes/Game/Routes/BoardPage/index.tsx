@@ -7,6 +7,7 @@ import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { Cell } from '../../../../Interfaces/Cell';
 import { createEnemyPokemonsApi, fetchBoardCellsApi, gameTurnEffectApi } from '../../../../Service/Api';
+import { whoWon } from '../../../../Service/Utils';
 import s from './style.module.css';
 
 type StepOwn = 'WE' | 'ENEMY';
@@ -37,10 +38,10 @@ export const BoardPage = (): JSX.Element => {
 
     useEffect(() => {
 
-        const checkWon = whoWon();
+        const checkWon = whoWon(board);
 
         if (checkWon) {
-            alert(checkWon);
+
         }
 
     }, [board]);
@@ -94,26 +95,6 @@ export const BoardPage = (): JSX.Element => {
     }
 
     const filterPokemonsByBoard = (pokemons: Pokemon[] | undefined): Pokemon[] => pokemons?.filter(prev => !board.map(cell => cell.card?.id).includes(prev.id)) || [];
-
-    const filterByPlayer = (playerId: 1 | 2): Cell[] => board.filter(cell => cell.card?.player === playerId);
-
-    const whoWon = (): 'WE' | 'ENEMY' | 'NOONE' | null => {
-
-        if (board.length === 0 || board.map(cell => cell.card).includes(null)) {
-            return null;
-        }
-
-        const playerOneCount = filterByPlayer(1).length;
-        const playerTwoCount = filterByPlayer(2).length;
-
-        if (playerOneCount > playerTwoCount) {
-            return 'WE'
-        } else if (playerTwoCount > playerOneCount) {
-            return 'ENEMY'
-        } else {
-            return 'NOONE';
-        }
-    }
 
     return (
         <div className={s.root}>
