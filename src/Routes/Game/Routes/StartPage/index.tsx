@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
-import { pokemonsAreValidForPlaying } from '../../../../Service/Utils';
+import { pokemonsAreValidForPlaying, toggleIncludesCollection } from '../../../../Service/Utils';
 import PokemonCardsInline from '../../../../Components/PokemonCardsInline';
 
 export const StartPage = (): JSX.Element => {
@@ -34,9 +34,7 @@ export const StartPage = (): JSX.Element => {
 
     }, [selectedIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handlePokemonCardClick = (id: string): void => setSelectedIds(prev => {
-        return [...prev, id];
-    });
+    const handlePokemonCardClick = (id: string): void => setSelectedIds(prev => toggleIncludesCollection(prev, id));
 
     return (
         <div className="game-page">

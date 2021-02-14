@@ -3,6 +3,7 @@ import { Pokemon } from "../../Interfaces";
 import PokemonCard from "../PokemonCard";
 import style from './style.module.css';
 import classnames from 'classnames';
+import Arrow from '../../Assets/arrow-down.png';
 
 interface PlayerBoardProps {
     pokemonCards: Pokemon[];
@@ -23,6 +24,9 @@ const PlayerBoard: FunctionComponent<PlayerBoardProps> = ({ pokemonCards, onCard
 
     return (
         <Fragment>
+            <div className={style.arrowWrapper}>
+                { !disabled && <img src={Arrow} alt="arrow-img"/> }
+            </div>
             { pokemonCards.map(pokemonCard => (
                 <div className={classnames(style.cardBoard, { [style.selected]: selectedPokemon?.id === pokemonCard.id })} key={pokemonCard.firebaseKey || pokemonCard.id}>
                     <PokemonCard pokemon={pokemonCard} onClick={() => handleCardClick(pokemonCard)} minimize isActive />

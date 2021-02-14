@@ -40,6 +40,10 @@
     margin-top: -40px;
 }
 
+.pokemonCard.selected .wrap.front::after {
+    border-color: rgb(60, 60, 175);
+}
+
 .cardFront,
 .cardBack {
     width: 100%;

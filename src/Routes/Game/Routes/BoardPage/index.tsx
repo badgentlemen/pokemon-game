@@ -6,10 +6,12 @@ import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { Cell } from '../../../../Interfaces/Cell';
 import { createEnemyPokemonsApi, fetchBoardCellsApi, gameTurnEffectApi } from '../../../../Service/Api';
-import { pokemonsAreValidForPlaying, whoWon } from '../../../../Service/Utils';
+import { pokemonsAreValidForPlaying, randomEnumValue, whoWon } from '../../../../Service/Utils';
 import s from './style.module.css';
 
-type StepOwn = 'WE' | 'ENEMY';
+enum StepOwn {
+    WE, ENEMY
+}
 
 interface PageErrors {
     fetchBoardError?: any;
@@ -19,7 +21,7 @@ interface PageErrors {
 export const BoardPage = (): JSX.Element => {
 
     const [board, setBoard] = useState<Cell[]>([]);
-    const [stepOwn, setStepOwn] = useState<StepOwn>('ENEMY');
+    const [stepOwn, setStepOwn] = useState<StepOwn>(randomEnumValue(StepOwn));
     const [errors, setErrors] = useState<PageErrors | null>(null);
     const [currentCard, setCurrentCard] = useState<Pokemon | null>(null);
     const { pokemons, setWinResult, enemyPokemons, setEnemyPokemons } = useContext(PokemonContext);
@@ -70,7 +72,7 @@ export const BoardPage = (): JSX.Element => {
         try {
 
             const response = await gameTurnEffectApi(position, card, board);
-            setStepOwn(prev => prev === 'WE' ? 'ENEMY' : 'WE');
+            setStepOwn(prev => prev === StepOwn.WE ? StepOwn.ENEMY : StepOwn.WE);
             setCurrentCard(() => null);
             setBoard(() => response);
 
@@ -91,7 +93,7 @@ export const BoardPage = (): JSX.Element => {
     return (
         <div className={s.root}>
             <div className={s.playerOne}>
-                {pokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(pokemons)} onCardClick={setCurrentCard} disabled={stepOwn === 'ENEMY'}/> }
+                {pokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(pokemons)} onCardClick={setCurrentCard} disabled={stepOwn === StepOwn.ENEMY}/> }
             </div>
             <div className={s.board}>
                 { [...board.slice(0, 9)].map(cell => (
@@ -103,7 +105,7 @@ export const BoardPage = (): JSX.Element => {
                 ))}
             </div>
             <div className={s.playerTwo}>
-                { enemyPokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(enemyPokemons)} onCardClick={setCurrentCard} />}
+                { enemyPokemons && <PlayerBoard pokemonCards={filterPokemonsByBoard(enemyPokemons)} onCardClick={setCurrentCard} disabled={stepOwn === StepOwn.WE}/>}
             </div>
         </div>
     )
