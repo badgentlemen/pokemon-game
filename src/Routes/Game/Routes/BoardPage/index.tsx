@@ -13,16 +13,10 @@ enum StepOwn {
     WE, ENEMY
 }
 
-interface PageErrors {
-    fetchBoardError?: any;
-    createEnemyPokemons?: any;
-}
-
 export const BoardPage = (): JSX.Element => {
 
     const [board, setBoard] = useState<Cell[]>([]);
     const [stepOwn, setStepOwn] = useState<StepOwn>(randomEnumValue(StepOwn));
-    const [errors, setErrors] = useState<PageErrors | null>(null);
     const [currentCard, setCurrentCard] = useState<Pokemon | null>(null);
     const { pokemons, setWinResult, enemyPokemons, setEnemyPokemons } = useContext(PokemonContext);
     const { replace: routeReplace } = useHistory();
@@ -45,12 +39,7 @@ export const BoardPage = (): JSX.Element => {
             const cells = await fetchBoardCellsApi();
             setBoard(cells);
         } catch(e) {
-            setErrors(prev => {
-                return {
-                    ...prev,
-                    fetchBoardError: e
-                }
-            });
+
         }
     }
 
@@ -59,12 +48,7 @@ export const BoardPage = (): JSX.Element => {
             const pokemons = await createEnemyPokemonsApi();
             setEnemyPokemons && setEnemyPokemons(pokemons);
         } catch(e) {
-            setErrors(prev => {
-                return {
-                    ...prev,
-                    createEnemyPokemons: e
-                }
-            })
+
         }
     }
 
