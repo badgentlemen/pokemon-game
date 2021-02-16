@@ -34,11 +34,11 @@ export const BoardPage = (): JSX.Element => {
     useEffect(() => {
         fetchBoard();
         createEnemyPokemons();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         setWinResult && setWinResult(whoWon(board));
-    }, [board]);
+    }, [board]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchBoard = async() => {
         try {

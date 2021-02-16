@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
 import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
-import { pokemonsAreValidForPlaying, toggleIncludesCollection } from '../../../../Service/Utils';
+import { pokemonsAreValidForPlaying } from '../../../../Service/Utils';
 import PokemonCardsInline from '../../../../Components/PokemonCardsInline';
 
 export const StartPage = (): JSX.Element => {
