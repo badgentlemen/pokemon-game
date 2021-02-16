@@ -16,3 +16,4 @@ FirebaseApp.initializeApp(firebaseConfig);
 
 export const App = FirebaseApp;
 export const Database = FirebaseApp.database();
+export * from './Utils';

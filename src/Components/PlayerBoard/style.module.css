@@ -1,0 +1,26 @@
+.cardBoard {
+    width: 100%;
+    max-width: 18vw;
+    height: 14.8vw;
+    margin-top: -6vw;
+}
+
+.cardBoard:first-child {
+    margin-top: 0;
+}
+
+.cardBoard.selected {
+    margin-left: -20px;
+}
+
+.arrowWrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    top: -85px;
+    left: 40%;
+}
+
+.arrowWrapper img {
+    width: 100%;
+}

@@ -1,11 +1,18 @@
 import { createContext } from "react";
-import { Pokemon } from "../Interfaces";
+import { Pokemon, WinResult } from "../Interfaces";
 
 export interface PokemonContextProps {
     pokemons: Pokemon[],
+    enemyPokemons: Pokemon[],
+    winResult: WinResult | null;
     appendPokemons?: (pokemon: Pokemon[]) => void;
+    setEnemyPokemons?: (pokemons: Pokemon[]) => void;
+    setWinResult?: (result: WinResult | null) => void;
+    resetGame?: () => void;
 }
 
 export const PokemonContext = createContext<Partial<PokemonContextProps>>({
-    pokemons: []
+    pokemons: [],
+    enemyPokemons: [],
+    winResult: null
 });

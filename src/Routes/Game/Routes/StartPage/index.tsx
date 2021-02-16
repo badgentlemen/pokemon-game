@@ -1,15 +1,16 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import PokemonCard from '../../../../Components/PokemonCard';
 import { PokemonContext } from '../../../../Context/PokemonContext';
 import { Pokemon } from '../../../../Interfaces';
-import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Firebase/Api/PokemonsApi';
-import pokemonStyle from '../../../../Components/PokemonCard/style.module.css';
+import { subscribeFetchAll, unsubscribeFetchAll } from '../../../../Service/Api/Firebase';
+import { pokemonsAreValidForPlaying, toggleIncludesCollection } from '../../../../Service/Utils';
+import PokemonCardsInline from '../../../../Components/PokemonCardsInline';
 
 export const StartPage = (): JSX.Element => {
 
     const [isFetching, setFetching] = useState<boolean>(false);
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [error, setError] = useState<Error | null>(null);
     const { appendPokemons, pokemons: storedPokemons } = useContext(PokemonContext);
     const { push: historyPush } = useHistory();
@@ -28,17 +29,14 @@ export const StartPage = (): JSX.Element => {
 
     useEffect(() => {
 
-        const selectedPokemons = pokemons.filter(pokemon => pokemon.isSelected);
+        const selectedPokemons = pokemons.filter(pokemon => selectedIds.includes(pokemon.id));
         appendPokemons && appendPokemons(selectedPokemons);
 
-    }, [pokemons]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [selectedIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const allowGaming = storedPokemons && storedPokemons.length > 0;
-
-    const handlePokemonCardClick = (id: number | string): void => setPokemons(pokemons => pokemons.map(pokemon => pokemon.id === id ? {
-        ...pokemon,
-        isSelected: !pokemon.isSelected,
-    } : pokemon));
+    const handlePokemonCardClick = (id: string): void => {
+        setSelectedIds(list => list.includes(id) ? list.filter(item => item !== id) : list.length < 5 ? [...list, id] : list);
+    };
 
     return (
         <div className="game-page">
@@ -53,15 +51,14 @@ export const StartPage = (): JSX.Element => {
                         ? <div>Ошибка запроса</div>
                         : (
                             <Fragment>
-                                {allowGaming && (
-                                    <button onClick={() => historyPush('/game/board')} style={{
-                                        marginBottom: 50
-                                    }}>
-                                        START GAME
-                                    </button>
-                                )}
+                                <button onClick={() => historyPush('/game/board')} style={{
+                                    marginBottom: 50
+                                }} disabled={!pokemonsAreValidForPlaying(storedPokemons)}>
+                                    START GAME
+                                </button>
                                 <div className="flex">
-                                    {pokemons.map(({ id, name, values, img, type, isSelected, firebaseKey, active }) => <PokemonCard key={firebaseKey} id={id} name={name} values={values} img={img} type={type} isSelected={isSelected} isActive={active} onClick={() => handlePokemonCardClick(id)} className={pokemonStyle.root} />)}
+                                    <PokemonCardsInline pokemons={pokemons}
+                                        onCardClick={pokemon => handlePokemonCardClick(pokemon.id)} selectedIds={selectedIds} />
                                 </div>
                             </Fragment>
                         )
